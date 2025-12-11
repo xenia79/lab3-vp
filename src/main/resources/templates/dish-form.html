@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Dish Form</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">WEB PROGRAMMING LAB</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarsExampleDefault">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        </div>
+    </nav>
+</header>
+
+<div>
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading" th:text="${dish != null} ? 'Edit Dish' : 'Add New Dish'">Dish Form</h1>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+
+                <form method="post"
+                      th:action="${dish != null} ? @{/dishes/edit/{id}(id=${dish.id})} : @{/dishes/add}">
+
+                    <div class="form-group">
+                        <label for="dishId">Dish ID</label>
+                        <input type="text"
+                               class="form-control"
+                               id="dishId"
+                               name="dishId"
+                               th:value="${dish != null ? dish.dishId : ''}"
+                               required
+                               placeholder="Enter dish ID">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Dish Name</label>
+                        <input type="text"
+                               class="form-control"
+                               id="name"
+                               name="name"
+                               th:value="${dish != null ? dish.name : ''}"
+                               required
+                               placeholder="Enter dish name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cuisine">Cuisine</label>
+                        <input type="text"
+                               class="form-control"
+                               id="cuisine"
+                               name="cuisine"
+                               th:value="${dish != null ? dish.cuisine : ''}"
+                               required
+                               placeholder="Enter cuisine type">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preparationTime">Preparation Time (min)</label>
+                        <input type="number"
+                               class="form-control"
+                               id="preparationTime"
+                               name="preparationTime"
+                               min="1"
+                               th:value="${dish != null ? dish.preparationTime : ''}"
+                               required
+                               placeholder="Enter preparation time">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Chef</label>
+                        <select name="chefId" class="form-control">
+                            <option th:each="chef : ${chefs}"
+                                    th:text="${chef.firstName} + ' ' + ${chef.lastName}"
+                                    th:value="${chef.id}"
+                                    th:selected="${dish != null && dish.chef != null && dish.chef == chef}"
+                            >
+                            </option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a class="btn btn-secondary" href="/dishes">Back</a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

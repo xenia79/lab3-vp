@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Dishes</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          crossorigin="anonymous">
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">WEB PROGRAMMING LAB</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarsExampleDefault">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        </div>
+    </nav>
+</header>
+
+<div>
+
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">All Dishes</h1>
+
+            <p th:if="${error != null}" class="text-danger font-weight-bold" th:text="${error}"></p>
+        </div>
+    </section>
+
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-12" th:if="${dishes.size() > 0}">
+                <div class="table-responsive">
+
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Dish ID</th>
+                            <th>Name</th>
+                            <th>Cuisine</th>
+                            <th>Prep Time</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="d : ${dishes}">
+                            <td th:text="${d.dishId}"></td>
+                            <td th:text="${d.name}"></td>
+                            <td th:text="${d.cuisine}"></td>
+                            <td th:text="${d.preparationTime + ' min'}"></td>
+
+                            <td>
+
+                                <a th:href="@{'/dishes/dish-form/{id}' (id=${d.id})}"
+                                   class="btn btn-sm btn-info ml-2">
+                                    Edit
+                                </a>
+
+                                <form th:action="@{'/dishes/delete/{id}' (id=${d.id})}" method="post" style="display:inline-block">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="col mb-3">
+                <a href="/dishes/dish-form" class="btn btn-dark btn-block">
+                    Add New Dish
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
